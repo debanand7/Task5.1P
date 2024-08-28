@@ -13,6 +13,15 @@ pipeline {
                 echo "Task: Run unit tests using JUnit to ensure code functions as expected."
                 echo "Tool: Run integration tests using Selenium to ensure the different components of the application work together as expected"
             }
+             post{
+                success{
+                    mail to: "mlola6600@gmail.com",
+                    subject: "Unit and Integration Tests Status Email",
+                    body: '''Unit and Integration Tests were successful.
+                    Unit and Integration Tests Log attached'''
+                    
+                }
+            }
         }
 
         stage('Code Analysis') {
@@ -20,6 +29,21 @@ pipeline {
                 echo "Analyze the code for quality and adherence to standards using SonarQube"
             }
         }
+
+        stage('Security Scan') {
+            steps {
+                echo "Perform a security scan using OWASP ZAP to identify vulnerabilities"
+            }
+            post{
+                success{
+                    mail to: "mlola6600@gmail.com",
+                    subject: "Security Scan Status Email",
+                    body: '''Security Scan was successful.
+                    Security Scan Log attached'''        
+                }
+            }
+        }
+
 
     }
 }
