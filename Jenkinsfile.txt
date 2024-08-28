@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        STAGING_SERVER = 'example.com'
+        PRODUCTION_ENVIRONMENT = 'Deborah'
+    }
+
     stages {
         stage('Build') {
             steps {
@@ -44,6 +49,18 @@ pipeline {
             }
         }
 
+        stage('Deploy to Staging') {
+            steps {
+                echo "Deploy the application to Docker"
+            }
+        }
+
+        stage('Integration Tests on Staging') {
+            steps {
+                echo "Run integration tests on ${env.STAGING_SERVER} to ensure the application functions as expected in ${env.PRODUCTION_ENVIRONMENT}"
+            }
+            
+        }
 
     }
 }
