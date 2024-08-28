@@ -57,9 +57,22 @@ pipeline {
 
         stage('Integration Tests on Staging') {
             steps {
-                echo "Run integration tests on ${env.STAGING_SERVER} to ensure the application functions as expected in ${env.PRODUCTION_ENVIRONMENT}"
+                echo "Run integration tests on ${env.STAGING_SERVER} to ensure the application functions as expected in production-like environment"
             }
-            
+            post{
+                success{
+                    mail to: "mlola6600@gmail.com",
+                    subject: "Integration Tests on Staging Status Email",
+                    body: '''Integration Tests on Staging were successful.
+                    Integration Tests on Staging Log attached'''        
+                }
+            }
+        }
+
+        stage('Deploy to Production') {
+            steps {
+                echo "Deploy the application to ${env.PRODUCTION_ENVIRONMENT}"
+            }
         }
 
     }
